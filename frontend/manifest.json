@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Presentable",
+    "version": "1.0",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage",
+        "history"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
