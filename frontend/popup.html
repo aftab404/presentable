@@ -1,18 +1,24 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="popup.css">
-    </head>
-    <body>
+
+<head>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <div class="header">
         <h1>Presentable</h1>
-        <div class="container">
-            <button id="toggleBtn">Start</button>
-            <div id="indicator"></div>
-            <button id="makePresentationBtn">Make Presentation</button>
-            <button id="resetBtn">Reset</button>
-        </div>
-        <div id="presentationContainer"></div>
+        <div id="indicator"></div>
 
-        <script type="module" src="popup.js"></script>
-    </body>
+    </div>
+    <div class="container">
+        <button id="toggleBtn">Start</button>
+        <button id="makePresentationBtn">Make Presentation</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+    <div id="presentationContainer"></div>
+    <textarea id="contextInput" placeholder="Enter context"></textarea>
+
+    <script type="module" src="popup.js"></script>
+</body>
+
 </html>
-
