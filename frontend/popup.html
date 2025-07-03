@@ -5,19 +5,19 @@
 </head>
 
 <body>
-    <div class="header">
-        <h1>Presentable</h1>
-        <div id="indicator"></div>
-
+    <div class="wrapper">
+        <div class="header">
+            <h1>Presentable</h1>
+            <div id="indicator"></div>
+        </div>
+        <div class="container">
+            <button id="toggleBtn">Start</button>
+            <button id="makePresentationBtn">Make Presentation</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+        <div id="presentationContainer"></div>
+        <textarea id="contextInput" class="context-input" placeholder="Enter context"></textarea>
     </div>
-    <div class="container">
-        <button id="toggleBtn">Start</button>
-        <button id="makePresentationBtn">Make Presentation</button>
-        <button id="resetBtn">Reset</button>
-    </div>
-    <div id="presentationContainer"></div>
-    <textarea id="contextInput" placeholder="Enter context"></textarea>
-
     <script type="module" src="popup.js"></script>
 </body>
 
