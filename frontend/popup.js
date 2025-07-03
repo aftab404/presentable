@@ -17,21 +17,25 @@ contextInput.addEventListener("input", (e) => {
 });
 
 async function makePresentation() {
-    console.log(context)
-    const response = await fetch("http://localhost:3000/generate", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ history, context })
-    })
-    console.log("make presentation called")
-    const data = await response.json();
-    console.log(data)
-    console.log(data.output[0].content[0].text);
-    const presentation = data.output[0].content[0].text;
-    presentationContainer.innerHTML = `<pre><code>${presentation}</code></pre>`;
-    chrome.storage.local.set({ presentation: presentation });
+    chrome.runtime.sendMessage({ action: "GET_HISTORY" }, async (response) => {
+        if (response) {
+            history = response.history;
+            console.log(history)
+            const res = await fetch("http://localhost:3000/generate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ history, context })
+            })
+            const data = await res.json();
+            console.log(data)
+            const presentation = data.output[0].content[0].text;
+            presentationContainer.innerHTML = `<pre><code>${presentation}</code></pre>`;
+            chrome.storage.local.set({ presentation: presentation });
+        }
+    });
+
 }
 
 async function helloWorld() {
@@ -54,12 +58,12 @@ resetBtn.addEventListener("click", () => {
     history = [];
     presentation = "";
     recording = false;
-    
+
     // Update UI elements immediately
     indicator.style.backgroundColor = "red";
     toggleBtn.textContent = "Start";
     presentationContainer.innerHTML = `<pre><code></code></pre>`;
-    
+
     chrome.storage.local.set({ history: history, presentation: presentation, recording: recording });
 });
 
@@ -70,14 +74,12 @@ toggleBtn.addEventListener("click", () => {
     indicator.style.backgroundColor = recording ? "green" : "red";
     toggleBtn.textContent = recording ? "Stop" : "Start";
 
-    chrome.storage.local.set({ recording: recording });
-});
+    chrome.runtime.sendMessage({ action: "SET_RECORDING", recording: recording }, (response) => {
+        if (response && response.success) {
+            console.log("Recording set successfully");
+        }
+    });
 
-chrome.history.onVisited.addListener(async (historyItem) => {
-    if (recording) {
-        history.push(historyItem.url);
-        chrome.storage.local.set({ history: history });
-        console.log(history);
-    }
+    chrome.storage.local.set({ recording: recording });
 });
 
